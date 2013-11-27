@@ -232,13 +232,13 @@ if ( typeof window['vc_teaserGrid'] !== 'function' ) {
                 itemSelector : '.isotope-item',
                 layoutMode : (layout_modes[layout_mode]==undefined ? 'fitRows' : layout_modes[layout_mode])
             });
-            $container.find('.categories_filter a').data('isotope', $thumbs).click(function(e){
-                e.preventDefault();
-                var $thumbs = jQuery(this).data('isotope');
-                jQuery(this).parent().parent().find('.active').removeClass('active');
-                jQuery(this).parent().addClass('active');
-                $thumbs.isotope({filter: jQuery(this).attr('data-filter')});
-            });
+            //$container.find('.categories_filter a').data('isotope', $thumbs).click(function(e){
+            //    e.preventDefault();
+            //    var $thumbs = jQuery(this).data('isotope');
+            //    jQuery(this).parent().parent().find('.active').removeClass('active');
+            //    jQuery(this).parent().addClass('active');
+            //    $thumbs.isotope({filter: jQuery(this).attr('data-filter')});
+            //});
             jQuery(window).load(function() {
                 $thumbs.isotope("reLayout");
             });
