@@ -1,0 +1,39 @@
+/*
+Theme Name: Theme Venera
+Theme URI: http://#/frame/frame.php
+Author: Tamik Soziev
+Author URI: http://soziev.com/
+Description: Gorgeous multipurpose Wordpress theme.
+Version: 1.1.2
+License:
+License URI:
+Tags:
+Text Domain: venera
+
+*/
+
+
+.wp-caption {
+  max-width: 100%;
+}
+.wp-caption-text {
+
+}
+.sticky {
+
+}
+.gallery-caption {
+
+}
+.bypostauthor {
+
+}
+.alignright {
+  text-align: right;
+}
+.alignleft {
+  text-align: left;
+}
+.aligncenter {
+  text-align: center;
+}
