@@ -45,13 +45,13 @@
                         if (o) {
                             var _pluginsLength = $allPlugins_.length;
                             //find and return plugin
-                            console.log("searching for plugin   " + o + " in pile ......");
+                           // console.log("searching for plugin   " + o + " in pile ......");
                             for (var i = 0; i < _pluginsLength; i++) {
                                 if ($allPlugins_[i].name === o) {
                                     var that = this;
 
 
-                                    console.log("found plugin   " + o + "! now returning ... ");
+                                  //  console.log("found plugin   " + o + "! now returning ... ");
                                     return {
                                         WithArguments: function (param, completed) {
 
@@ -79,7 +79,7 @@
                             }
 
                             //if it doesnt find the plugin then throw exception
-                            console.error("ERROR: MISSING PLUGIN (" + o + ") DEFINITION NOT FOUND");
+                           // console.error("ERROR: MISSING PLUGIN (" + o + ") DEFINITION NOT FOUND");
 
                             //return {
                             //    WithArguments: function (param, completed) {
@@ -121,18 +121,18 @@
 
 
 
-                        console.log(" invoking plugin....   " + $allPlugins_[i].name);
+                       // console.log(" invoking plugin....   " + $allPlugins_[i].name);
                         // dependency resolution start
                         var dep = $allPlugins_[i].dependency;
                         var depLength = dep.length;
 
 
-                        console.log("injecting dependencies....   ");
+                     //   console.log("injecting dependencies....   ");
 
 
-                        console.log(($allPlugins_[i].dependency.toString() || " ***Oh! No available dependency"));
+                       // console.log(($allPlugins_[i].dependency.toString() || " ***Oh! No available dependency"));
                         //dependency resolution ends
-                        console.log("finally executing  " + $allPlugins_[i].name + " .....");
+                       // console.log("finally executing  " + $allPlugins_[i].name + " .....");
 
 
                         var coreDependencyMapping = coreDependencyFactory(startOptions, param);
@@ -205,7 +205,7 @@
                     plugin: function (name, f_or_dependency, fun, autoExecute, nature) {
                         var dnature = nature || "NONE provider";
 
-                        console.log("--->Registering a " + dnature + "  " + name + "  ....");
+                      //  console.log("--->Registering a " + dnature + "  " + name + "  ....");
 
 
                         var f = typeof f_or_dependency === "function" ? f_or_dependency : (fun || function () { });
