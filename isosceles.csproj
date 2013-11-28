@@ -1,0 +1,339 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C02102FE-C4DA-4717-933C-A47FDF1587E8}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>isosceles</RootNamespace>
+    <AssemblyName>isosceles</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="debuging\isosceles.js" />
+    <Content Include="debuging\sample.isosceles.js" />
+    <Content Include="debuging\Tests\1.0.0\isosceles.Test.html" />
+    <Content Include="debuging\Tests\1.0.1\isosceles.Test.html" />
+    <Content Include="debuging\Tests\isosceles.Test.html" />
+    <Content Include="images\bg_hr.png" />
+    <Content Include="images\bkg.png" />
+    <Content Include="images\blacktocat.png" />
+    <Content Include="images\icon_download.png" />
+    <Content Include="images\isosceles base.png" />
+    <Content Include="images\isosceles.png" />
+    <Content Include="images\isosceles_logo.png" />
+    <Content Include="images\sprite_download.png" />
+    <Content Include="index.html" />
+    <Content Include="index_files\1.svg" />
+    <Content Include="index_files\2297178_75.jpg" />
+    <Content Include="index_files\67659148.htm" />
+    <Content Include="index_files\71319358.htm" />
+    <Content Include="index_files\add-to-cart.min.js" />
+    <Content Include="index_files\bootstrap-button.js" />
+    <Content Include="index_files\bootstrap-carousel.js" />
+    <Content Include="index_files\bootstrap-collapse.js" />
+    <Content Include="index_files\bootstrap-dropdown.js" />
+    <Content Include="index_files\bootstrap-transition.js" />
+    <Content Include="index_files\cart-fragments.min.js" />
+    <Content Include="index_files\client-1.png" />
+    <Content Include="index_files\client-2.png" />
+    <Content Include="index_files\client-3.png" />
+    <Content Include="index_files\client-4.png" />
+    <Content Include="index_files\client-5.png" />
+    <Content Include="index_files\client-6.png" />
+    <Content Include="index_files\color-scheme-one.css" />
+    <Content Include="index_files\comment-reply.min.js" />
+    <Content Include="index_files\ConvivaCommunicationProxy%281%29.htm" />
+    <Content Include="index_files\ConvivaCommunicationProxy%282%29.htm" />
+    <Content Include="index_files\ConvivaCommunicationProxy%283%29.htm" />
+    <Content Include="index_files\face1.png" />
+    <Content Include="index_files\face2.png" />
+    <Content Include="index_files\face3.png" />
+    <Content Include="index_files\face4.png" />
+    <Content Include="index_files\flexslider.css" />
+    <Content Include="index_files\font-awesome.css" />
+    <Content Include="index_files\isotope.css" />
+    <Content Include="index_files\jquery.blockUI.min.js" />
+    <Content Include="index_files\jquery.cookie.min.js" />
+    <Content Include="index_files\jquery.flexslider-min.js" />
+    <Content Include="index_files\jquery.form.min.js" />
+    <Content Include="index_files\jquery.isotope.min.js" />
+    <Content Include="index_files\jquery.js" />
+    <Content Include="index_files\jquery.placeholder.min.js" />
+    <Content Include="index_files\jquery.prettyPhoto.js" />
+    <Content Include="index_files\jquery.ui.accordion.min.js" />
+    <Content Include="index_files\jquery.ui.core.min.js" />
+    <Content Include="index_files\jquery.ui.widget.min.js" />
+    <Content Include="index_files\js_composer_front.css" />
+    <Content Include="index_files\js_composer_front.js" />
+    <Content Include="index_files\layout.css" />
+    <Content Include="index_files\LivePass.js" />
+    <Content Include="index_files\LivePassModuleMain.js" />
+    <Content Include="index_files\main.js" />
+    <Content Include="index_files\pac.css" />
+    <Content Include="index_files\phone-app-1.jpg" />
+    <Content Include="index_files\phone-app-2.jpg" />
+    <Content Include="index_files\phone-app.jpg" />
+    <Content Include="index_files\photo-card-big-1.jpg" />
+    <Content Include="index_files\photo-card-big-10.png" />
+    <Content Include="index_files\photo-card-big-101.png" />
+    <Content Include="index_files\photo-card-big-11.png" />
+    <Content Include="index_files\photo-card-big-111.png" />
+    <Content Include="index_files\photo-card-big-12.jpg" />
+    <Content Include="index_files\photo-card-big-131.jpg" />
+    <Content Include="index_files\photo-card-big-2.png" />
+    <Content Include="index_files\photo-card-big-6.jpg" />
+    <Content Include="index_files\photo-card-big-8.jpg" />
+    <Content Include="index_files\photo-card-big-91.jpg" />
+    <Content Include="index_files\photo-card-large.png" />
+    <Content Include="index_files\photo-cards.jpg" />
+    <Content Include="index_files\player.js" />
+    <Content Include="index_files\post-card-1.jpg" />
+    <Content Include="index_files\post-card-2.jpg" />
+    <Content Include="index_files\prettyPhoto.css" />
+    <Content Include="index_files\scripts.js" />
+    <Content Include="index_files\skip-link-focus-fix.js" />
+    <Content Include="index_files\style%281%29.css" />
+    <Content Include="index_files\style.css" />
+    <Content Include="index_files\styles.css" />
+    <Content Include="index_files\waypoints.min.js" />
+    <Content Include="index_files\woocommerce.min.js" />
+    <Content Include="isosceles.png" />
+    <Content Include="javascripts\main.js" />
+    <Content Include="lib\BHelper\crossbrowser.scene.js" />
+    <Content Include="lib\bootstrap\css\bootstrap.css" />
+    <Content Include="lib\bootstrap\css\bootstrap.min.css" />
+    <Content Include="lib\bootstrap\img\glyphicons-halflings-white.png" />
+    <Content Include="lib\bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="lib\bootstrap\js\bootstrap.js" />
+    <Content Include="lib\bootstrap\js\bootstrap.min.js" />
+    <Content Include="lib\jquery\jquery.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery-ui-i18n.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-af.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-ar-DZ.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-ar.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-az.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-be.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-bg.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-bs.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-ca.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-cs.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-cy-GB.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-da.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-de.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-el.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-en-AU.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-en-GB.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-en-NZ.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-eo.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-es.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-et.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-eu.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-fa.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-fi.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-fo.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-fr-CA.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-fr-CH.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-fr.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-gl.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-he.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-hi.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-hr.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-hu.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-hy.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-id.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-is.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-it.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-ja.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-ka.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-kk.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-km.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-ko.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-ky.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-lb.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-lt.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-lv.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-mk.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-ml.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-ms.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-nb.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-nl-BE.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-nl.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-nn.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-no.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-pl.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-pt-BR.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-pt.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-rm.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-ro.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-ru.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-sk.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-sl.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-sq.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-sr-SR.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-sr.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-sv.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-ta.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-th.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-tj.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-tr.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-uk.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-vi.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-zh-CN.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-zh-HK.min.js" />
+    <Content Include="lib\jquery\ui\i18n\jquery.ui.datepicker-zh-TW.min.js" />
+    <Content Include="lib\jquery\ui\jquery-ui.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.accordion.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.autocomplete.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.button.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.core.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.datepicker.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.dialog.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.draggable.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.droppable.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.effect-blind.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.effect-bounce.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.effect-clip.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.effect-drop.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.effect-explode.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.effect-fade.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.effect-fold.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.effect-highlight.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.effect-pulsate.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.effect-scale.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.effect-shake.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.effect-slide.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.effect-transfer.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.effect.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.menu.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.mouse.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.position.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.progressbar.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.resizable.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.selectable.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.slider.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.sortable.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.spinner.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.tabs.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.tooltip.min.js" />
+    <Content Include="lib\jquery\ui\jquery.ui.widget.min.js" />
+    <Content Include="lib\qunit\qunit-1.12.0.css" />
+    <Content Include="lib\qunit\qunit-1.12.0.js" />
+    <Content Include="lib\qunit\theme.css" />
+    <Content Include="projects\scene\BHelper\crossbrowser.scene.js" />
+    <Content Include="projects\scene\scene.html" />
+    <Content Include="projects\scene\dependencies\core\Cycler.scene.js" />
+    <Content Include="projects\scene\dependencies\sample\AdSlider.scene.js" />
+    <Content Include="projects\scene\dependencies\sample\FullSlideShow.scene.js" />
+    <Content Include="projects\scene\dependencies\sample\SimpleSlider.scene.js" />
+    <Content Include="projects\scene\examples\myslideshow.js" />
+    <Content Include="projects\scene\img\1.jpg" />
+    <Content Include="projects\scene\img\2.jpg" />
+    <Content Include="projects\scene\img\3.jpg" />
+    <Content Include="projects\scene\img\4.jpg" />
+    <Content Include="projects\scene\lib\scene.js" />
+    <Content Include="projects\scene\promiseLib\promise.scene.js" />
+    <Content Include="projects\scene\s.png" />
+    <Content Include="releases\1.0.0\development\isosceles.js" />
+    <Content Include="releases\1.0.0\development\Tests\isosceles.Test.html" />
+    <Content Include="releases\1.0.0\quickSample\index.html" />
+    <Content Include="releases\fiddle\scenario.html" />
+    <Content Include="tests\1.0.0\isosceles.Test.js" />
+    <Content Include="releases\1.0.0\production\isosceles.min.js" />
+    <Content Include="releases\1.0.0\production\Tests\isosceles.Test.html" />
+    <Content Include="stylesheets\pygment_trac.css" />
+    <Content Include="stylesheets\stylesheet.css" />
+    <Content Include="tests\1.0.1\isosceles.Test.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="index_files\css" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="releases\1.0.0\production\isosceles.min.zip" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="releases\1.0.0\development\isosceles.zip" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:3478/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

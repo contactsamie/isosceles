@@ -1,0 +1,5 @@
+G:\isosceles\isosceles\isosceles\bin\isosceles.dll
+G:\isosceles\isosceles\isosceles\bin\isosceles.pdb
+G:\isosceles\isosceles\isosceles\obj\Debug\isosceles.csprojResolveAssemblyReference.cache
+G:\isosceles\isosceles\isosceles\obj\Debug\isosceles.dll
+G:\isosceles\isosceles\isosceles\obj\Debug\isosceles.pdb
