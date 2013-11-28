@@ -467,3 +467,108 @@ test("isosceles Lib - use of short forms - global namespaces and modules Test", 
 
 
 });
+
+test("isosceles Lib - Testing Mocks", function () {
+
+    var result0 = undefined;
+    var result2 = undefined;
+    var callArg = {
+        test: "testing"
+    };
+
+    var execArg = {
+        exec: "executing"
+    };
+
+    var onFinish = function () {
+        return "samTestModule Completed"
+    };
+    var c1Modification = "_MODIFIED_BY_C1";
+    var namespaceName = createSomeUniqueString();
+    var namespaceName2 = createSomeUniqueString();
+    var anotherNamespaceName = createSomeUniqueString();
+    var moduleName = createSomeUniqueString();
+    var moduleName2 = createSomeUniqueString();
+    var moduleName3 = createSomeUniqueString();
+    var anotherModuleName = createSomeUniqueString();
+    var someOtherModuleName = createSomeUniqueString();
+    var defaultDependencySetUp = { name: "ADependency", dependency: "A" };
+
+
+
+    //==========================================================================================================================================
+
+    var expected1 = "1234567890";
+    var expected2 = defaultDependencySetUp.dependency +callArg.test+ c1Modification + onFinish();
+
+
+    var samTestLib = isosceles(namespaceName, function () { return [defaultDependencySetUp]; });
+
+    var samTestModule = samTestLib.module(moduleName);
+
+
+
+    samTestModule.plugin("A1", ["ADependency"], function (Inject) {
+        return function (arg, onCompleted) {
+            return Inject.ADependency;
+        };
+    }, true);
+
+
+
+    samTestModule.plugin("B1", ["A1"], function (Inject) {
+        return function (arg, onCompleted) {
+            return Inject.A1 + arg + onCompleted();
+        };
+    });
+
+
+    samTestModule.plugin("C1", ["B1"], function (Inject) {
+        return function (arg, onCompleted) {
+            return Inject.B1(arg.test + c1Modification, onCompleted);
+          
+        };
+    });
+
+    var anotherTestModule = samTestLib.module(moduleName2, [moduleName]);
+
+    anotherTestModule.mock("C1", expected1);
+
+
+
+    anotherTestModule.plugin("D1", ["C1"], function (Inject) {
+        return function (arg, onCompleted) {
+            
+            var res = Inject.C1(callArg, onFinish);
+            return res;
+        };
+    });
+   
+    result0= anotherTestModule.using("D1").WithArguments(callArg, onFinish).execute(execArg);
+
+    var yetAnotherTestModule = samTestLib.module(moduleName3, [moduleName]);
+
+    yetAnotherTestModule.plugin("D1", ["C1"], function (Inject) {
+        return function (arg, onCompleted) {
+
+            return Inject.C1(callArg, onFinish);
+        };
+    });
+
+    var result10 = yetAnotherTestModule.using("D1").WithArguments(callArg, onFinish).execute(execArg);
+
+
+    anotherTestModule.expect("D1", "0987654321","so wrong expectation");
+
+    anotherTestModule.test("D1", function (testResult, note, actual, expected) {
+        ok(!testResult,"1");
+        ok(note === "so wrong expectation","2");
+        ok(expected === "0987654321","3");
+        ok(actual === expected1,"4");
+    });
+
+
+   ok(result0 === expected1, "Mocks ");
+    ok(result10 === expected2, "Mocks ");
+ 
+});

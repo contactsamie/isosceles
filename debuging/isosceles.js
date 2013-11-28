@@ -34,9 +34,110 @@
 
 
                 otherModules = otherModules || [];
+                var _fakeObjects =_fakeObjects|| {};
+                var _expectations =_expectations|| {};
+                _fakeObjects.namespaces = _fakeObjects.namespaces || {};
+                _fakeObjects.namespaces[namespaceReference] = _fakeObjects.namespaces[namespaceReference] || {};
+                _fakeObjects.namespaces[namespaceReference][moduleNameRef] = _fakeObjects.namespaces[namespaceReference][moduleNameRef] || {};
+
+
+
+                _expectations.namespaces = _expectations.namespaces || {};
+                _expectations.namespaces[namespaceReference] = _expectations.namespaces[namespaceReference] || {};
+                _expectations.namespaces[namespaceReference][moduleNameRef] = _expectations.namespaces[namespaceReference][moduleNameRef] || {};
+
+
+                var mockFactory = function (str,obj) {
+                    var mod = wind.isosceles("_$mockObj$_").module("_$mockObj$_");
+                    mod.plugin(str, function () {
+                        return function () {
+                            return obj;
+                        };
+                    });
+                return    mod.using(str);
+                };
+
+
 
 
                 return {
+                    setMockObject: function (mockObject) {
+                   if (mockObject) {
+                            for (var _mock in mockObject) {
+                                if (mockObject.hasOwnProperty(_mock)) {
+                                    this.mock(_mock, mockObject[_mock]);
+                                }
+                            }
+                   }
+
+                   return this;
+                    },
+                    testSetUp: function (testStr, expMet, mObject) {
+                        this.setMockObject(mObject)
+                       
+                        if (testStr&&(expMet !== undefined)) {
+                            this.expect(testStr, expMet);
+                        }
+                        return this;
+                    },
+                    getExpectation: function (str) {
+                        return _expectations.namespaces[namespaceReference][moduleNameRef][str];
+                    },
+                    test: function (testStr,Arg, callBack) {
+                        callBack = callBack || Arg;
+                        if (testStr&&typeof callBack === "function") {
+
+                           // this.testSetUp(testStr || undefined, expMet || undefined, mObject || undefined);
+                            var testResult = false;
+                            var note = "";
+                            console.warn("Testing " + testStr+"***********");
+                            var actual = (this.using(testStr))(Arg || undefined);
+                            var testHandle = _expectations.namespaces[namespaceReference][moduleNameRef][testStr];
+
+                            if (typeof testHandle === "function") {
+
+                                var expected = testHandle && testHandle();
+                                testResult = actual === expected;
+                                note = (testHandle && testHandle["note"]) || "";
+                                callBack(testResult, note, actual, expected);
+                            } else {
+                                console.error("Testing " + testStr+" was unsuccessfull!");
+                                callBack();
+                            }
+                        }
+                        return this;
+                    },
+                    expect: function (expStr, expMet,note) {
+                        if (expStr) {
+                           
+                            _expectations.namespaces[namespaceReference][moduleNameRef][expStr] = function () { return expMet; };
+                            _expectations.namespaces[namespaceReference][moduleNameRef][expStr]["note"] = note || "";
+
+                        }
+                        return this;
+
+                    },
+                    getMockObject: function (str) {
+                        var mockry = _fakeObjects.namespaces[namespaceReference][moduleNameRef][str];
+
+                        return  typeof mockry==="function"? mockry:undefined;
+                    },
+                    isMocked: function (str) {
+
+                        return this.getMockObject(str) ? true : false;
+
+                    },
+                    mock: function (fakeStr, fakeMet) {
+
+
+
+
+                        if (fakeStr && fakeMet !== undefined) {
+                           
+                            _fakeObjects.namespaces[namespaceReference][moduleNameRef][fakeStr] = function () { return mockFactory(fakeStr, fakeMet); };
+                        }
+                        return this;
+                    },
                     using: function (o) {
                         if (o) {
                             var _pluginsLength = $allPlugins_.length;
@@ -94,7 +195,6 @@
 
                         }
                     },
-
                     dependencyFactoryInterceptor: (function () {
 
 
@@ -153,16 +253,45 @@
                                 for (var j = 0; j < _pluginsLength; j++) {
                                     var eachPointedPlugin = $allPlugins_[j];
                                     var otherModuleDepencies = this.getModuleDependencies(otherModules);
+
+
+                               
+
+  var MockFun = this.getMockObject(eachDepend);
+
+                                            var plug = {};
+                                            if (typeof MockFun === "function") {
+                                                plug = MockFun();
+                                            } else {
+                                                plug = eachPointedPlugin.that.using(eachPointedPlugin.name);
+
+                                            }
+
+
+
                                     if ((eachPointedPlugin.name === eachDepend && eachPointedPlugin.module === moduleNameRef) ) {
 
-                                        var plug = eachPointedPlugin.that.using(eachPointedPlugin.name);
+
+                                       //var MockFun=this.getMockObject(eachDepend);
+
+                                       //var plug = {};
+                                       //if (typeof MockFun === "function") {
+                                       //    plug=MockFun();
+                                       //} else {
+                                       //   plug = eachPointedPlugin.that.using(eachPointedPlugin.name);
+
+                                       //}
+
                                         Inject[eachPointedPlugin.name] = eachPointedPlugin.autoExecute ? plug.WithArguments(param).execute() : plug
 
 
                                     } else {
                                         if ( (otherModuleDepencies && otherModuleDepencies.length && otherModuleDepencies.indexOf(eachPointedPlugin.name))) {
 
-                                            var plug = eachPointedPlugin.that.using(eachPointedPlugin.name);
+                                          
+                                        //    var plug = eachPointedPlugin.that.using(eachPointedPlugin.name);
+
+
                                             Inject[eachPointedPlugin.name] = eachPointedPlugin.autoExecute ? plug.WithArguments(param).execute() : plug
 
                                         }
