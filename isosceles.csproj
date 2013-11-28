@@ -305,6 +305,10 @@
   <ItemGroup>
     <Content Include="releases\1.0.0\development\isosceles.zip" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="debuging\isosceles.min.zip" />
+    <Content Include="debuging\isosceles.zip" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
