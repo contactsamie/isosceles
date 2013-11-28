@@ -60,6 +60,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="debuging\isosceles.min.js" />
     <Content Include="debuging\isosceles.js" />
     <Content Include="debuging\sample.isosceles.js" />
     <Content Include="debuging\Tests\1.0.0\isosceles.Test.html" />

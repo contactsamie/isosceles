@@ -1,6 +1,6 @@
 ﻿/*! isosceles.js v1.0.0 | (c) 2013, Samuel Bamgboye*/
 /**
- * isosceles v1.0.0 - Cleaner JavaScript Dependency Injection Factory
+ * isosceles v1.0.1 - Cleaner JavaScript Dependency Injection Factory
  *
  * Copyright 2013 Samuel Bamgboye
  * Released under the MIT license.
