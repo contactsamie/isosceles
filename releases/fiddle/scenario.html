@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <div class="sampleA">Hello World! Please Click Me</div>
+<div class="sampleB">I can inject and use the previous plugin! Please Click Me</div>
+
+<div class="sampleC">I can't  use the previous plugin! Please Click Me And See</div>
+
+<div class="sampleD">I have done everything right but still i cant inject! Please Click Me And See</div>
+
+    <script src="../../lib/jquery/jquery.js"></script>
+<!--    <script src="../1.0.0/production/isosceles.min.js"></script>-->
+    <script src="../../debuging/isosceles.js"></script>
+    <script>
+
+        //###########################################################################################################################
+        // Lets create a namespace and a module within it
+        //###########################################################################################################################
+
+        //Create a namespace
+
+        var jq = isosceles("jQueryLib1");
+
+        //Create a module off of that
+
+        var DomManipulationModule1 = jq.module("DomManipulation1");
+
+        //create a new plugin in the module fadeMeOutAndInOnClick.
+        //and inject "fadeMeIn" and "fadeMeOut" which currently doesn't exist, but then is injected!
+
+        DomManipulationModule1.plugin("fadeMeOutAndInOnClick", ["fadeMeIn", "fadeMeOut"], function (Inject) {
+            return function (arg, onCompleted) {
+                Inject.fadeMeOut.WithArguments(arg).execute();
+
+                setTimeout(function () {
+                    Inject.fadeMeIn.WithArguments(arg, onCompleted).execute();
+                }, 2000);
+            };
+        });
+
+
+        //now use the plugin fadeMeOutAndInOnClick whose dependencies dont even exist yet!
+        var fadingOperation = DomManipulationModule1.using("fadeMeOutAndInOnClick").WithArguments(".sampleA", function () {
+            alert("completed A");
+        });
+
+
+        //set up some click event handler
+        $(".sampleA").on("click", function () {
+            fadingOperation.execute();
+        });
+
+
+        // here is the fadeMeOut dependency
+
+        DomManipulationModule1.plugin("fadeMeOut", function () {
+            return function (arg, onCompleted) {
+                $(arg).fadeOut(onCompleted);
+            };
+        });
+
+        // here is the fadeMeIn dependency
+
+        DomManipulationModule1.plugin("fadeMeIn", function () {
+            return function (arg, onCompleted) {
+                $(arg).fadeIn(onCompleted);
+            };
+        });
+
+        //###########################################################################################################################
+        // Lets create another module within our existing namespace and inject the previous module
+        //###########################################################################################################################
+
+
+        var DomManipulationModule2 = jq.module("DomManipulation2", ["DomManipulation1"]);
+
+
+
+        //now use the plugin fadeMeOutAndInOnClick whose dependencies dont even exist yet!
+        var secondFadingOperation = DomManipulationModule2.using("fadeMeOutAndInOnClick").WithArguments(".sampleB", function () {
+            alert("completed B");
+        });
+
+
+        //set up some click event handler
+        $(".sampleB").on("click", function () {
+            secondFadingOperation.execute();
+        });
+
+
+
+        //###########################################################################################################################
+        // Lets create another module within our existing namespace and NOT inject the previous module
+        //###########################################################################################################################
+
+
+        var DomManipulationModule3 = jq.module("DomManipulation3");
+
+
+
+        //now use the plugin fadeMeOutAndInOnClick whose dependencies dont even exist yet!
+        var yetAnotherFadingOperation = DomManipulationModule3.using("fadeMeOutAndInOnClick").WithArguments(".sampleC", function () {
+            alert("completed C");
+        });
+
+
+        //set up some click event handler
+        $(".sampleC").on("click", function () {
+            yetAnotherFadingOperation.execute();
+        });
+
+        //todo
+
+        //###########################################################################################################################
+        // Lets create another module outside our existing namespace and inject the previous working module
+        //###########################################################################################################################
+
+        //Create another namespace
+
+         var jq2 = isosceles("jQueryLib2");
+
+         var DomManipulationModule4 = jq2.module("DomManipulation4",["DomManipulation1"]);
+
+
+
+        //now use the plugin fadeMeOutAndInOnClick whose dependencies dont even exist yet!
+         var andAnotherFadingOperation = DomManipulationModule4.using("fadeMeOutAndInOnClick").WithArguments(".sampleD", function () {
+            alert("completed D");
+         });
+
+
+        //set up some click event handler
+         $(".sampleD").on("click", function () {
+             andAnotherFadingOperation.execute();
+         });
+
+    </script>
+</body>
+</html>

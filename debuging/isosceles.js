@@ -7,11 +7,7 @@
  */
 (function (wind) {
 
-    function genSomeID() {
-        genSomeID.counter = genSomeID.counter || 0;
-        genSomeID.counter++;
-        return "siddis" + genSomeID.counter;
-    }
+    
    
     var _allPlugins_ = {};
     wind.isosceles = function (namespace, coreDependencyFactory) {
@@ -21,7 +17,7 @@
         var $allPlugins_ = _allPlugins_[namespace];
 
         if (namespace) {
-            wind.isosceles.namespaces = {};
+            wind.isosceles.namespaces =  wind.isosceles.namespaces|| {};
             
             if (typeof coreDependencyFactory !== "function") {
                 coreDependencyFactory = function () { return []; };
@@ -51,30 +47,34 @@
                                     var that = this;
 
 
-                                     console.log("found plugin   " + o + "! now returning ... ");
-                                    return {
-                                        WithArguments: function (param, completed) {
+                                    console.log("found plugin   " + o + "! now returning ... ");
 
-                                            return {
-                                                // using start() to delay execution and DI of method
-                                                //delay di to allow for free DI within modules
-                                                execute: function (startOptions) {
-
-                                                    //find and inject plugin
-                                                    //look in every member of the array requested dependencies
-
-                                                    var Inject = {};
-
-                                                    that.dependencyInjectorFactory(i, Inject, startOptions, param);
-
-
-                                                    var ended = typeof completed === "function" ? completed : function () { };
-
-                                                    return ($allPlugins_[i].plugin(Inject))(param, ended);
-                                                }
-                                            };
-                                        }
+                                    var WithArgumentsMethod = function (param, completed, startOptions) {
+                                        return WithArgumentsMethod.WithArguments(param, completed).execute(startOptions||undefined);
                                     };
+                                    WithArgumentsMethod.WithArguments= function (param, completed) {
+
+                                        return {
+                                            // using start() to delay execution and DI of method
+                                            //delay di to allow for free DI within modules
+                                            execute: function (startOptions) {
+
+                                                //find and inject plugin
+                                                //look in every member of the array requested dependencies
+
+                                                var Inject = {};
+
+                                                that.dependencyInjectorFactory(i, Inject, startOptions, param);
+
+
+                                                var ended = typeof completed === "function" ? completed : function () { };
+
+                                                return ($allPlugins_[i].plugin(Inject))(param, ended);
+                                            }
+                                        };
+                                    };
+
+                                    return WithArgumentsMethod;
                                 }
                             }
 
@@ -153,9 +153,19 @@
                                 for (var j = 0; j < _pluginsLength; j++) {
                                     var eachPointedPlugin = $allPlugins_[j];
                                     var otherModuleDepencies = this.getModuleDependencies(otherModules);
-                                    if ((eachPointedPlugin.name === eachDepend && eachPointedPlugin.module === moduleNameRef) ||(otherModuleDepencies&& otherModuleDepencies.length && otherModuleDepencies.indexOf(eachPointedPlugin.name))) {
+                                    if ((eachPointedPlugin.name === eachDepend && eachPointedPlugin.module === moduleNameRef) ) {
+
                                         var plug = eachPointedPlugin.that.using(eachPointedPlugin.name);
                                         Inject[eachPointedPlugin.name] = eachPointedPlugin.autoExecute ? plug.WithArguments(param).execute() : plug
+
+
+                                    } else {
+                                        if ( (otherModuleDepencies && otherModuleDepencies.length && otherModuleDepencies.indexOf(eachPointedPlugin.name))) {
+
+                                            var plug = eachPointedPlugin.that.using(eachPointedPlugin.name);
+                                            Inject[eachPointedPlugin.name] = eachPointedPlugin.autoExecute ? plug.WithArguments(param).execute() : plug
+
+                                        }
                                     }
                                 }
                             } else {
@@ -173,8 +183,8 @@
                                 var eahcOther = wind.isosceles.namespaces[namespaceReference];
                                 if (eahcOther) {
 
-                                 return   eahcOther.module(moduleName).myDependencies();
-
+                                 var depStrAr=   eahcOther.module(moduleName).myDependencies();
+                                 return depStrAr;
                                 }
                             }
                         }
@@ -234,20 +244,21 @@
             wind.isosceles.namespaces[namespace] = new module();
 
             return wind.isosceles.namespaces[namespace];
-        };
+        }
     };
    
-    var globalNamespace = genSomeID();
-    var globalModule = genSomeID();
-    wind.isosceles.module = isosceles(globalNamespace).module;
-    var moduleFactory=wind.isosceles.module(globalModule);
-    wind.isosceles.module.plugin = moduleFactory.plugin;
-    wind.isosceles.module.using = moduleFactory.using;
+    
+  
+    var $n = isosceles("_$n_");
+    wind.isosceles.module = $n.module;
 
+    var $m = $n.module("_$m_");
 
-    wind.isosceles.dependencyInjectorFactory
-    wind.isosceles.using = wind.isosceles.module.using;
-    wind.isosceles.plugin = wind.isosceles.module.plugin;
+    for (var m_prop in $m) {
+        if ($m.hasOwnProperty(m_prop)) {
+            wind.isosceles[m_prop] = $m[m_prop];
+        }
+    }
 
 
 
