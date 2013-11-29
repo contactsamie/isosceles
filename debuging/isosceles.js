@@ -10,13 +10,19 @@
     
    
     var _allPlugins_ = {};
+    var _modulesList = {};
     wind.isosceles = function (namespace, coreDependencyFactory) {
 
-        
-        _allPlugins_[namespace] = [];
-        var $allPlugins_ = _allPlugins_[namespace];
+
+       
 
         if (namespace) {
+
+            _modulesList[namespace] = _modulesList[namespace] || {};
+           
+              _allPlugins_[namespace] = [];
+              var $allPlugins_ = _allPlugins_[namespace];
+
             wind.isosceles.namespaces =  wind.isosceles.namespaces|| {};
             
             if (typeof coreDependencyFactory !== "function") {
@@ -25,13 +31,15 @@
 
             var module = function () { };
 
-        
+           
             module.prototype.module = function (moduleNameReference,otherModules) {
 
-
+                
               var  moduleNameRef = moduleNameReference;
               var  namespaceReference = namespace.toString();
-
+              //if (moduleNameRef && _modulesList[namespaceReference] && _modulesList[namespaceReference][moduleNameRef]) {
+              //    return _modulesList[namespaceReference][moduleNameRef];
+              //  }
 
                 otherModules = otherModules || [];
                 var _fakeObjects =_fakeObjects|| {};
@@ -58,9 +66,11 @@
                 };
 
 
+                
 
 
-                return {
+
+                var newModule= {
                     setMockObject: function (mockObject) {
                    if (mockObject) {
                             for (var _mock in mockObject) {
@@ -94,7 +104,7 @@
                             var actual = (this.using(testStr))(Arg || undefined);
                             var testHandle = _expectations.namespaces[namespaceReference][moduleNameRef][testStr];
 
-                            if (typeof testHandle === "function") {
+                            if (typeof testHandle === "function" ) {
 
                                 var expected = testHandle && testHandle();
                                 testResult = actual === expected;
@@ -117,23 +127,24 @@
                         return this;
 
                     },
+                    specify: function () {
+
+                    },
                     getMockObject: function (str) {
                         var mockry = _fakeObjects.namespaces[namespaceReference][moduleNameRef][str];
 
-                        return  typeof mockry==="function"? mockry:undefined;
+                        var mkObj = typeof mockry === "function" ? mockry : undefined;
+
+                        return mkObj;
                     },
                     isMocked: function (str) {
 
                         return this.getMockObject(str) ? true : false;
 
                     },
+                    enableMocking: true,
                     mock: function (fakeStr, fakeMet) {
-
-
-
-
                         if (fakeStr && fakeMet !== undefined) {
-                           
                             _fakeObjects.namespaces[namespaceReference][moduleNameRef][fakeStr] = function () { return mockFactory(fakeStr, fakeMet); };
                         }
                         return this;
@@ -163,14 +174,42 @@
                                                 //find and inject plugin
                                                 //look in every member of the array requested dependencies
 
-                                                var Inject = {};
+                                                var Inject = function (f) {
+                                                    var injection = Inject[f];
+                                                    if (f && injection) {
+                                                        return injection;
+                                                    } else {
+
+                                       throw ("unable to inject dependency '" + (f || "") + "' into '" + $allPlugins_[i].name + "' Plugin  in module '" + $allPlugins_[i].module+"'");
+                                                    }
+                                                };
 
                                                 that.dependencyInjectorFactory(i, Inject, startOptions, param);
 
 
                                                 var ended = typeof completed === "function" ? completed : function () { };
 
-                                                return ($allPlugins_[i].plugin(Inject))(param, ended);
+                                                var returnFunction = ($allPlugins_[i].plugin(Inject));
+
+                                                if (typeof returnFunction === "function") {
+
+                                                    try{
+                                                        var pluginExecutionResult = returnFunction(param, ended);
+
+                                                        return pluginExecutionResult;
+                                                    }catch(ex){
+                                      console.error($allPlugins_[i].name + " Plugin  in module " + $allPlugins_[i].module + " threw an exception ..." + ex + "  " + $allPlugins_[i].plugin);
+                                                   
+                                                    }
+
+
+                                                } else {
+                                                    console.error($allPlugins_[i].name + " Plugin  in module " + $allPlugins_[i].module + " did not return a function");
+                                                    console.error($allPlugins_[i].plugin);
+                                                   
+                                                }
+
+                                              
                                             }
                                         };
                                     };
@@ -251,21 +290,26 @@
                             if (Interceptor === undefined) {
                                 //look in every registered / available dependency
                                 for (var j = 0; j < _pluginsLength; j++) {
+
+                                   
+
+
                                     var eachPointedPlugin = $allPlugins_[j];
                                     var otherModuleDepencies = this.getModuleDependencies(otherModules);
 
 
                                
 
-  var MockFun = this.getMockObject(eachDepend);
+                                    var MockFun =this.getMockObject(eachDepend);
 
                                             var plug = {};
-                                            if (typeof MockFun === "function") {
+                                            if (this.enableMocking && typeof MockFun === "function") {
                                                 plug = MockFun();
+                                                Inject[eachDepend] = plug
                                             } else {
                                                 plug = eachPointedPlugin.that.using(eachPointedPlugin.name);
 
-                                            }
+                                   
 
 
 
@@ -296,6 +340,7 @@
 
                                         }
                                     }
+                                            }
                                 }
                             } else {
                                 Inject[eachDepend] = Interceptor;
@@ -306,16 +351,22 @@
 
                     },
                     getModuleDependencies: function (stringSpecifiedModules) {
-                        if (stringSpecifiedModules) {
+                        if (stringSpecifiedModules &&( stringSpecifiedModules.length!==0)) {
                             for (var om = 0; om < stringSpecifiedModules.length; om++) {
                                 var moduleName = stringSpecifiedModules[om];
                                 var eahcOther = wind.isosceles.namespaces[namespaceReference];
                                 if (eahcOther) {
 
-                                 var depStrAr=   eahcOther.module(moduleName).myDependencies();
-                                 return depStrAr;
+                                    var depStrAr = eahcOther.module(moduleName).myDependencies();
+                                    if (depStrAr && depStrAr.length==0) {
+                                      console.error("Dependency '" + stringSpecifiedModules + "'  has NOT been added to the namespace '" + namespaceReference + "' and cannot be injected into '" + moduleNameRef+"'");
+                                    }
+
+                                    return depStrAr;
                                 }
                             }
+
+                          
                         }
 
                     },
@@ -368,12 +419,27 @@
                     }
                 };
 
+               
+
+                _modulesList[namespace][moduleNameRef]=newModule;
+
+
+                return _modulesList[namespace][moduleNameRef];
+
+
             };
 
             wind.isosceles.namespaces[namespace] = new module();
 
             return wind.isosceles.namespaces[namespace];
+
+
+
         }
+
+
+
+
     };
    
     

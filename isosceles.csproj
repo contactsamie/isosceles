@@ -60,21 +60,60 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\font\fontawesome-webfont.svg" />
+    <Content Include="css\ie\backgroundsize.min.htc" />
+    <Content Include="css\ie\html5shiv.js" />
+    <Content Include="css\ie\PIE.htc" />
+    <Content Include="css\ie\v8.css" />
+    <Content Include="css\images\arrow.svg" />
+    <Content Include="css\images\banner.svg" />
+    <Content Include="css\images\loader.gif" />
+    <Content Include="css\images\poptrox-closer.svg" />
+    <Content Include="css\images\poptrox-nav.svg" />
+    <Content Include="css\skel-noscript.css" />
+    <Content Include="css\style-mobile.css" />
+    <Content Include="css\style-narrow.css" />
+    <Content Include="css\style-normal.css" />
+    <Content Include="css\style-wide.css" />
+    <Content Include="css\style.css" />
     <Content Include="debuging\isosceles.min.js" />
     <Content Include="debuging\isosceles.js" />
     <Content Include="debuging\sample.isosceles.js" />
     <Content Include="debuging\Tests\1.0.0\isosceles.Test.html" />
     <Content Include="debuging\Tests\1.0.1\isosceles.Test.html" />
     <Content Include="debuging\Tests\isosceles.Test.html" />
+    <Content Include="images\bg-alt.jpg" />
+    <Content Include="images\bg.jpg" />
     <Content Include="images\bg_hr.png" />
     <Content Include="images\bkg.png" />
     <Content Include="images\blacktocat.png" />
+    <Content Include="images\fulls\01.jpg" />
+    <Content Include="images\fulls\02.jpg" />
+    <Content Include="images\fulls\03.jpg" />
+    <Content Include="images\fulls\04.jpg" />
+    <Content Include="images\fulls\05.jpg" />
+    <Content Include="images\fulls\06.jpg" />
+    <Content Include="images\fulls\07.jpg" />
+    <Content Include="images\fulls\08.jpg" />
     <Content Include="images\icon_download.png" />
     <Content Include="images\isosceles base.png" />
-    <Content Include="images\isosceles.png" />
+    <Content Include="images\isosceles-50.png" />
+    <Content Include="images\isosceles1.png" />
     <Content Include="images\isosceles_logo.png" />
+    <Content Include="images\isosceles.png" />
+    <Content Include="images\pic01.jpg" />
+    <Content Include="images\pic02.jpg" />
     <Content Include="images\sprite_download.png" />
+    <Content Include="images\thumbs\01.jpg" />
+    <Content Include="images\thumbs\02.jpg" />
+    <Content Include="images\thumbs\03.jpg" />
+    <Content Include="images\thumbs\04.jpg" />
+    <Content Include="images\thumbs\05.jpg" />
+    <Content Include="images\thumbs\06.jpg" />
+    <Content Include="images\thumbs\07.jpg" />
+    <Content Include="images\thumbs\08.jpg" />
     <Content Include="index.html" />
+    <Content Include="index2.html" />
     <Content Include="index_files\1.svg" />
     <Content Include="index_files\2297178_75.jpg" />
     <Content Include="index_files\67659148.htm" />
@@ -151,6 +190,10 @@
     <Content Include="index_files\woocommerce.min.js" />
     <Content Include="isosceles.png" />
     <Content Include="javascripts\main.js" />
+    <Content Include="js\init.js" />
+    <Content Include="js\jquery.min.js" />
+    <Content Include="js\jquery.poptrox.min.js" />
+    <Content Include="js\skel.min.js" />
     <Content Include="lib\BHelper\crossbrowser.scene.js" />
     <Content Include="lib\bootstrap\css\bootstrap.css" />
     <Content Include="lib\bootstrap\css\bootstrap.min.css" />
@@ -308,6 +351,12 @@
   <ItemGroup>
     <Content Include="debuging\isosceles.min.zip" />
     <Content Include="debuging\isosceles.zip" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="css\font\fontawesome-webfont.eot" />
+    <Content Include="css\font\fontawesome-webfont.ttf" />
+    <Content Include="css\font\fontawesome-webfont.woff" />
+    <Content Include="css\font\FontAwesome.otf" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

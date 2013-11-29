@@ -572,3 +572,105 @@ test("isosceles Lib - Testing Mocks", function () {
     ok(result10 === expected2, "Mocks ");
  
 });
+
+/*
+test("isosceles Lib - Testing Specifications", function () {
+
+    var framework = iso("sam_framework");
+    var module = framework.module("sam_module");
+    var mockShifts={
+        shift1: "s1",
+        shift2: "s2"
+    };
+    module.mock("getAllShifts", mockShifts);
+
+
+
+
+    module.plugin("shiftViewer", ["getAllShifts"],function (Inject) {
+        return function () {
+            var shifts = Inject("getAllShifts")();
+          
+            var result = "";
+            for (var shift in shifts) {
+                if (shifts.hasOwnProperty(shift)) {
+                    result += shifts[shift];
+                }
+            }
+            return result;
+       };
+    });
+
+    //Not implemented dependency
+    //module.plugin("getAllShifts", function () {
+    //    return function () {
+
+    //    };
+    //});
+
+    var shiftViewer = module.using("shiftViewer");
+
+    var shiftView1 = shiftViewer();
+
+    ok(shiftView1 === "s1s2", " when mocking is enabled , the mock object must be use");
+
+    module.enableMocking = false;
+
+    var shiftView2 = shiftViewer();
+
+    ok(shiftView2 !== "s1s2", " when mocking is NOT enabled , the mock object must NOT be use");
+
+    module.enableMocking = true;
+
+    var shiftView3 = shiftViewer();
+
+    ok(shiftView3 === "s1s2", " when mocking is enabled AGAIN, the mock object must be use");
+
+
+    module.enableMocking = false;
+
+    var shiftView4 = shiftViewer();
+
+    ok(shiftView4 !== "s1s2", " when mocking is NOT enabled AGAIN , the mock object must NOT be use");
+
+
+    module2 = framework.module("moduleSecond", ["sam_module"]);
+
+    module2.mock("shiftViewer", "abcd");
+
+    module.enableMocking = true;//enable mocking for sam_framework module so that the modules depending on it will get some result
+
+    var shiftViewer2 = module2.using("shiftViewer");
+
+    var shiftView11 = shiftViewer2();
+
+    ok(shiftView11 === "abcd", " when mocking is enabled , the mock object must be use");
+
+    module2.enableMocking = false;
+
+    var shiftView12 = shiftViewer2();
+
+    ok(shiftView12 !== "abcd", " when mocking is NOT enabled , the mock object must NOT be use");
+
+    module2.enableMocking = true;
+
+    var shiftView13 = shiftViewer2();
+
+    ok(shiftView13 === "abcd", " when mocking is enabled AGAIN, the mock object must be use");
+
+
+    module2.enableMocking = false;
+
+    var shiftView14 = shiftViewer2();
+
+    ok(shiftView14 !== "abcd", " when mocking is NOT enabled AGAIN , the mock object must NOT be use");
+
+
+
+
+
+
+
+});
+
+*/
