@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <style>
+      .console {
+    color:green;
+    background-color:black;
+    padding:5px;
+    margin:5px;
+}
+.title {
+    font-weight:bold;
+    width:300px;
+    margin: 0 auto 0 auto;
+}
+.fake {
+    background-color:yellow;
+}
+.fakeTitle {
+    margin: 0 auto 0 auto;
+    width:300px;
+    background-color:black;
+    color:yellow;
+}
+    </style>
+
+    <div class="console">
+    <div class="title">Real Console</div>
+    <div class="body"></div>
+</div>
+<div class="fake">
+    <div class="fakeTitle">Fake Console</div>
+    <br />
+    <div class="mock"></div>
+</div>
+    <script src="../../../lib/jquery/jquery.js"></script>
+    <script src="../../isosceles.js"></script>
+
+    <script>
+
+        //lets 'change' jquery symbol from $ to JQ
+        iso.plugin("JQ", function () {
+            return function () {
+                return $;
+            };
+        });
+
+        //lets inject JQ (our jquery)
+
+        iso.plugin("Console", ["JQ"], function (Inject) {
+            return function (arg) {
+                //lets grab the dependency
+                var j = Inject.JQ();
+                return {
+                    log: function (data) {
+                        j(arg.body).append(data + "<br />");
+                    }
+                };
+            };
+        });
+
+        //lets construct a messanger dependency
+        iso.plugin("Messanger", ["Console"], function (Inject) {
+            return function (arg) {
+                var customConsole = Inject.Console({
+                    body: ".body"
+                });
+                customConsole.log(arg);
+            };
+        });
+
+        //lets call our messanger!
+
+        var post = iso.using("Messanger");
+
+        post("Hello World! For Real");
+
+        //but then we can mock/fake Console
+
+        iso.mock("Console", {
+            log: function (data) {
+                $(".mock").append(data);
+            }
+        });
+
+
+        //this should alert instead
+        post("Hello World! Its fake");
+
+        // but the we can turn off mocking/faking
+        iso.enableMocking = false;
+
+        post("Hello World! Real or Fake? Yes , its for real!");
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>

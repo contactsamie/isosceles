@@ -80,6 +80,7 @@
     <Content Include="debuging\isosceles.js" />
     <Content Include="debuging\sample.isosceles.js" />
     <Content Include="debuging\Tests\1.0.0\isosceles.Test.html" />
+    <Content Include="debuging\Tests\1.0.1\helloworld1.html" />
     <Content Include="debuging\Tests\1.0.1\isosceles.Test.html" />
     <Content Include="debuging\Tests\isosceles.Test.html" />
     <Content Include="images\bg-alt.jpg" />

@@ -1,4 +1,4 @@
-/* TESTS
+﻿/* TESTS
 
 ! isosceles.js v1.0.0 | (c) 2013, Samuel Bamgboye*/
 /**
