@@ -1,4 +1,4 @@
-﻿/* TESTS
+/* TESTS
 
 ! isosceles.js v1.0.0 | (c) 2013, Samuel Bamgboye*/
 /**
@@ -13,52 +13,7 @@ function createSomeUniqueString() {
     return "someId_" + createSomeUniqueString.counter;
 }
 
-test("API Avialability Test", function () {
-    ok(isosceles, "isosceles object is available in global space!");
-    ok(iso, "iso object is available in global space!");
-    ok(isosceles(function () { }).module, "isosceles.module object is available for creation of modules!");
-    ok(typeof isosceles(function () { }).module === "function", "isosceles.module object is available for creation of modules!");
-    ok(isosceles(function () { }).module(createSomeUniqueString()), "invoking isosceles.module object returns a truthy object");
-    ok(typeof isosceles(function () { }).module(createSomeUniqueString()).plugin === "function", "the plugin method exist off of module");
 
-    ok(isosceles.module, "isosceles.module object is available for creation of modules!");
-    ok(typeof isosceles.module === "function", "isosceles.module object is available for creation of modules!");
-    ok(typeof isosceles.plugin === "function", "isosceles.plugin object is available for creation of modules!");
-    ok(typeof isosceles.using === "function", "isosceles.using object is available for creation of modules!");
-
-
-    ok(typeof iso.module === "function", "iso.module object is available for creation of modules!");
-    ok(typeof iso.plugin === "function", "iso.plugin object is available for creation of modules!");
-    ok(typeof iso.using === "function", "iso.using object is available for creation of modules!");
-
-
-
-    ok(typeof iso.provider === "function", "iso.provider object is available for creation of modules!");
-    ok(typeof iso.myDependencies === "function", "iso.myDependencies object is available for creation of modules!");
-    ok(typeof iso.myDependency === "function", "iso.myDependency object is available for creation of modules!");
-    ok(typeof iso.getModuleDependencies === "function", "iso.getModuleDependencies object is available for creation of modules!");
-    ok(typeof iso.dependencyInjectorFactory === "function", "iso.dependencyInjectorFactory object is available for creation of modules!");
-    ok(typeof iso.dependencyFactoryInterceptor === "function", "iso.dependencyFactoryInterceptor object is available for creation of modules!");
-
-    ok(iso === isosceles, "iso and isosceles refer to the same object!");
-
-    for (var isoObjProp in iso) {
-        if (iso.hasOwnProperty(isoObjProp)) {
-            ok( isosceles.hasOwnProperty(isoObjProp), "iso." + isoObjProp + " and isosceles." + isoObjProp + " must be the same object!");
-        }
-    }
-   
-    ok(isosceles.module(createSomeUniqueString()), "invoking isosceles.module object returns a truthy object");
-    ok(typeof isosceles.module(createSomeUniqueString()).plugin === "function", "the plugin method exist off of module");
-
-    ok(typeof isosceles.module(createSomeUniqueString()).using === "function", "the using method exist off of module");
-
-    ok(! isosceles.module(createSomeUniqueString()).using(), "a plugin must be supplied");
-
-
-    ok(!isosceles.module(createSomeUniqueString()).using(createSomeUniqueString()), "a non existing plugin cannot be used");
-
-});
 
 test("isosceles Lib Example Usage Test", function () {
    
@@ -490,6 +445,7 @@ test("isosceles Lib - Testing Mocks", function () {
     var moduleName = createSomeUniqueString();
     var moduleName2 = createSomeUniqueString();
     var moduleName3 = createSomeUniqueString();
+    var moduleName4 = createSomeUniqueString();
     var anotherModuleName = createSomeUniqueString();
     var someOtherModuleName = createSomeUniqueString();
     var defaultDependencySetUp = { name: "ADependency", dependency: "A" };
@@ -561,19 +517,40 @@ test("isosceles Lib - Testing Mocks", function () {
     anotherTestModule.expect("D1", "0987654321","so wrong expectation");
 
     anotherTestModule.test("D1", function (testResult, note, actual, expected) {
-        ok(!testResult,"1");
-        ok(note === "so wrong expectation","2");
-        ok(expected === "0987654321","3");
-        ok(actual === expected1,"4");
+        ok(!testResult, "1. a failed test must be false");
+        ok(note === "so wrong expectation", "1. when 'note' is supplied in a test, it must be injected back into the test callback");
+        ok(expected === "0987654321", "1. when 'expectation' is supplied in a test, it must be injected back into the test callback");
+        ok(actual === expected1, "1. when a test is run , the expected must be correctly compared to the actual even when mock object is involved");
     });
 
 
    ok(result0 === expected1, "Mocks ");
-    ok(result10 === expected2, "Mocks ");
+   ok(result10 === expected2, "Mocks ");
+
+
+   var aNewTestModule = samTestLib.module(moduleName4, [moduleName]);
+
+   aNewTestModule.mock("D1","coffee");
+
+  
+   aNewTestModule.expect("D1", "milk", "D1 must be a milk");
+
+   aNewTestModule.test("D1", function (testResult, note, actual, expected) {
+
+      
+       ok(!testResult, "2. a failed test must be false");
+       ok(note === "D1 must be a milk", "2. when 'note' is supplied in a test, it must be injected back into the test callback");
+       ok(expected === "milk", "2. when 'expectation' is supplied in a test, it must be injected back into the test callback");
+       ok(actual === "coffee", "2. when a test is run , the expected must be correctly compared to the actual even when mock object is involved");
+    
+   });
+
+
+
  
 });
 
-/*
+
 test("isosceles Lib - Testing Specifications", function () {
 
     var framework = iso("sam_framework");
@@ -612,28 +589,28 @@ test("isosceles Lib - Testing Specifications", function () {
 
     var shiftView1 = shiftViewer();
 
-    ok(shiftView1 === "s1s2", " when mocking is enabled , the mock object must be use");
+    ok(shiftView1 === "s1s2", " when mocking is enabled , the mock object must be used");
 
     module.enableMocking = false;
 
     var shiftView2 = shiftViewer();
 
-    ok(shiftView2 !== "s1s2", " when mocking is NOT enabled , the mock object must NOT be use");
+    ok(shiftView2 !== "s1s2", " when mocking is NOT enabled , the mock object must NOT be used");
 
     module.enableMocking = true;
 
     var shiftView3 = shiftViewer();
 
-    ok(shiftView3 === "s1s2", " when mocking is enabled AGAIN, the mock object must be use");
+    ok(shiftView3 === "s1s2", " when mocking is enabled AGAIN, the mock object must be used");
 
 
     module.enableMocking = false;
 
     var shiftView4 = shiftViewer();
 
-    ok(shiftView4 !== "s1s2", " when mocking is NOT enabled AGAIN , the mock object must NOT be use");
+    ok(shiftView4 !== "s1s2", " when mocking is NOT enabled AGAIN , the mock object must NOT be used");
 
-
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     module2 = framework.module("moduleSecond", ["sam_module"]);
 
     module2.mock("shiftViewer", "abcd");
@@ -644,26 +621,26 @@ test("isosceles Lib - Testing Specifications", function () {
 
     var shiftView11 = shiftViewer2();
 
-    ok(shiftView11 === "abcd", " when mocking is enabled , the mock object must be use");
+    ok(shiftView11 === "abcd", " when mocking is enabled by default , the mock object must be used");
 
     module2.enableMocking = false;
 
     var shiftView12 = shiftViewer2();
 
-    ok(shiftView12 !== "abcd", " when mocking is NOT enabled , the mock object must NOT be use");
+    ok(shiftView12 !== "abcd", " when mocking is NOT enabled , the mock object must NOT be used");
 
     module2.enableMocking = true;
 
     var shiftView13 = shiftViewer2();
 
-    ok(shiftView13 === "abcd", " when mocking is enabled AGAIN, the mock object must be use");
+    ok(shiftView13 === "abcd", " when mocking is enabled AGAIN, the mock object must be used");
 
 
     module2.enableMocking = false;
 
     var shiftView14 = shiftViewer2();
 
-    ok(shiftView14 !== "abcd", " when mocking is NOT enabled AGAIN , the mock object must NOT be use");
+    ok(shiftView14 !== "abcd", " when mocking is NOT enabled AGAIN , the mock object must NOT be used");
 
 
 
@@ -673,4 +650,49 @@ test("isosceles Lib - Testing Specifications", function () {
 
 });
 
-*/
+test("API Avialability Test", function () {
+    ok(isosceles, "isosceles object is available in global space!");
+    ok(iso, "iso object is available in global space!");
+    ok(isosceles(function () { }).module, "isosceles.module object is available for creation of modules!");
+    ok(typeof isosceles(function () { }).module === "function", "isosceles.module object is available for creation of modules!");
+    ok(isosceles(function () { }).module(createSomeUniqueString()), "invoking isosceles.module object returns a truthy object");
+    ok(typeof isosceles(function () { }).module(createSomeUniqueString()).plugin === "function", "the plugin method exist off of module");
+
+    ok(isosceles.module, "isosceles.module object is available for creation of modules!");
+    ok(typeof isosceles.module === "function", "isosceles.module object is available for creation of modules!");
+    ok(typeof isosceles.plugin === "function", "isosceles.plugin object is available for creation of modules!");
+    ok(typeof isosceles.using === "function", "isosceles.using object is available for creation of modules!");
+
+
+    ok(typeof iso.module === "function", "iso.module object is available for creation of modules!");
+    ok(typeof iso.plugin === "function", "iso.plugin object is available for creation of modules!");
+    ok(typeof iso.using === "function", "iso.using object is available for creation of modules!");
+
+
+
+    ok(typeof iso.provider === "function", "iso.provider object is available for creation of modules!");
+    ok(typeof iso.myDependencies === "function", "iso.myDependencies object is available for creation of modules!");
+    ok(typeof iso.myDependency === "function", "iso.myDependency object is available for creation of modules!");
+    ok(typeof iso.getModuleDependencies === "function", "iso.getModuleDependencies object is available for creation of modules!");
+    ok(typeof iso.dependencyInjectorFactory === "function", "iso.dependencyInjectorFactory object is available for creation of modules!");
+    ok(typeof iso.dependencyFactoryInterceptor === "function", "iso.dependencyFactoryInterceptor object is available for creation of modules!");
+
+    ok(iso === isosceles, "iso and isosceles refer to the same object!");
+
+    for (var isoObjProp in iso) {
+        if (iso.hasOwnProperty(isoObjProp)) {
+            ok(isosceles.hasOwnProperty(isoObjProp), "iso." + isoObjProp + " and isosceles." + isoObjProp + " must be the same object!");
+        }
+    }
+
+    ok(isosceles.module(createSomeUniqueString()), "invoking isosceles.module object returns a truthy object");
+    ok(typeof isosceles.module(createSomeUniqueString()).plugin === "function", "the plugin method exist off of module");
+
+    ok(typeof isosceles.module(createSomeUniqueString()).using === "function", "the using method exist off of module");
+
+    ok(!isosceles.module(createSomeUniqueString()).using(), "a plugin must be supplied");
+
+
+    ok(!isosceles.module(createSomeUniqueString()).using(createSomeUniqueString()), "a non existing plugin cannot be used");
+
+});
