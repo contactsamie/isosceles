@@ -1,4 +1,4 @@
-﻿/*! isosceles.js v1.0.0 | (c) 2013, Samuel Bamgboye*/
+/*! isosceles.js v1.0.0 | (c) 2013, Samuel Bamgboye*/
 /**
  * isosceles v1.0.1 - Cleaner JavaScript Dependency Injection Factory
  *
@@ -161,6 +161,9 @@
 
                                     console.log("found plugin   " + o + "! now returning ... ");
 
+
+                                 
+
                                     var WithArgumentsMethod = function (param, completed, startOptions) {
                                         return WithArgumentsMethod.WithArguments(param, completed).execute(startOptions||undefined);
                                     };
@@ -184,12 +187,15 @@
                                                     }
                                                 };
 
-                                                that.dependencyInjectorFactory(i, Inject, startOptions, param);
+
+                                                var MockFun = that.enableMocking && that.getMockObject($allPlugins_[i].name);
+
+                                                MockFun||  that.dependencyInjectorFactory(i, Inject, startOptions, param);
 
 
                                                 var ended = typeof completed === "function" ? completed : function () { };
 
-                                                var returnFunction = ($allPlugins_[i].plugin(Inject));
+                                                var returnFunction = MockFun?MockFun():($allPlugins_[i].plugin(Inject));
 
                                                 if (typeof returnFunction === "function") {
 
@@ -400,6 +406,8 @@
 
                         var f = typeof f_or_dependency === "function" ? f_or_dependency : (fun || function () { });
                         var dependencies = Object.prototype.toString.call(f_or_dependency) === '[object Array]' ? f_or_dependency : [];
+
+                       // dependencies.push(name);
 
                         if (typeof f === "function" && name) {
                             $allPlugins_.push({
