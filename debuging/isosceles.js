@@ -8,11 +8,47 @@
 (function (wind) {
 
     
+    var isoscelesCon$ole = function (o) { };
+
+    isoscelesCon$ole.defineConsole = function (f) {
+        console = typeof f==="function"?f:console;
+    };
+    console || isoscelesCon$ole.defineConsole(function () { });
+
+    isoscelesCon$ole.log = function (o) {
+        console.log(o);
+    };
+    isoscelesCon$ole.warn = function (o) {
+        console.warn(o);
+    };
+    isoscelesCon$ole.error = function (o) {
+        console.error(o);
+    };
+    isoscelesCon$ole.doc = function (name, doc) {
+
+        if (name) {
+
+            if (doc) {
+                isoscelesCon$ole.doc.list = isoscelesCon$ole.doc.list || {};
+                isoscelesCon$ole.doc.list[name] = doc;
+                console.log(name + ":" + doc);
+
+            } else {
+
+                return isoscelesCon$ole.doc.list[name]||"No documentation exist for '"+name+"' at the moment";
+
+            }         
+
+        } else {
+            return isoscelesCon$ole.doc.list;
+        }
+    };
+
    
     var _allPlugins_ = {};
     var _modulesList = {};
     wind.isosceles = function (namespace, coreDependencyFactory) {
-
+        isoscelesCon$ole.doc("isosceles", " isosceles is a JAVASCRIPT DEPENDENCY INJECTION FACTORY, you can define namespaces which contain modules, which contain plugins and modules from one namespace are forever separated from modules of another namespace");
 
        
 
@@ -33,7 +69,7 @@
 
            
             module.prototype.module = function (moduleNameReference,otherModules) {
-
+                isoscelesCon$ole.doc("isosceles.module", " isosceles.module is used to define a module off of a namespace. so after you have defined a namespace, you can use its module method to create modules for it");
                 
               var  moduleNameRef = moduleNameReference;
               var  namespaceReference = namespace.toString();
@@ -72,6 +108,8 @@
 
                 var newModule= {
                     setMockObject: function (mockObject) {
+                        isoscelesCon$ole.doc("isosceles.setMockObject", " isosceles.setMockObject is used to mosk dependencies with  supplied object containing 'dependency_name - mock' pairs . it can be used for specifying mock ina single location");
+
                    if (mockObject) {
                             for (var _mock in mockObject) {
                                 if (mockObject.hasOwnProperty(_mock)) {
@@ -100,7 +138,7 @@
                            // this.testSetUp(testStr || undefined, expMet || undefined, mObject || undefined);
                             var testResult = false;
                             var note = "";
-                            console.warn("Testing " + testStr+"***********");
+                            isoscelesCon$ole.warn("Testing " + testStr+"***********");
                             var actual = (this.using(testStr))(Arg || undefined);
                             var testHandle = _expectations.namespaces[namespaceReference][moduleNameRef][testStr];
 
@@ -111,7 +149,7 @@
                                 note = (testHandle && testHandle["note"]) || "";
                                 callBack(testResult, note, actual, expected);
                             } else {
-                                console.error("Testing " + testStr+" was unsuccessfull!");
+                                isoscelesCon$ole.error("Testing " + testStr+" was unsuccessfull!");
                                 callBack();
                             }
                         }
@@ -153,13 +191,13 @@
                         if (o) {
                             var _pluginsLength = $allPlugins_.length;
                             //find and return plugin
-                             console.log("searching for plugin   " + o + " in pile ......");
+                             isoscelesCon$ole.log("searching for plugin   " + o + " in pile ......");
                             for (var i = 0; i < _pluginsLength; i++) {
                                 if ($allPlugins_[i].name === o) {
                                     var that = this;
 
 
-                                    console.log("found plugin   " + o + "! now returning ... ");
+                                    isoscelesCon$ole.log("found plugin   " + o + "! now returning ... ");
 
 
                                  
@@ -204,14 +242,14 @@
 
                                                         return pluginExecutionResult;
                                                     }catch(ex){
-                                      console.error($allPlugins_[i].name + " Plugin  in module " + $allPlugins_[i].module + " threw an exception ..." + ex + "  " + $allPlugins_[i].plugin);
+                                      isoscelesCon$ole.error($allPlugins_[i].name + " Plugin  in module " + $allPlugins_[i].module + " threw an exception ..." + ex + "  " + $allPlugins_[i].plugin);
                                                    
                                                     }
 
 
                                                 } else {
-                                                    console.error($allPlugins_[i].name + " Plugin  in module " + $allPlugins_[i].module + " did not return a function");
-                                                    console.error($allPlugins_[i].plugin);
+                                                    isoscelesCon$ole.error($allPlugins_[i].name + " Plugin  in module " + $allPlugins_[i].module + " did not return a function");
+                                                    isoscelesCon$ole.error($allPlugins_[i].plugin);
                                                    
                                                 }
 
@@ -225,14 +263,14 @@
                             }
 
                             //if it doesnt find the plugin then throw exception
-                             console.error("ERROR: MISSING PLUGIN (" + o + ") DEFINITION NOT FOUND");
+                             isoscelesCon$ole.error("ERROR: MISSING PLUGIN (" + o + ") DEFINITION NOT FOUND");
 
                             //return {
                             //    WithArguments: function (param, completed) {
-                            //         console.error("ERROR: MISSING PLUGIN (" + o + ") - cannot provide plugin, no definition found Please insert before using");
+                            //         isoscelesCon$ole.error("ERROR: MISSING PLUGIN (" + o + ") - cannot provide plugin, no definition found Please insert before using");
                             //        return {
                             //            start: function () {
-                            //                 console.error("ERROR: MISSING PLUGIN  (" + o + ") - cannot INVOKE start because plugin is missing!");
+                            //                 isoscelesCon$ole.error("ERROR: MISSING PLUGIN  (" + o + ") - cannot INVOKE start because plugin is missing!");
                             //            }
                             //        };
                             //    }
@@ -266,18 +304,18 @@
 
 
 
-                         console.log(" invoking plugin....   " + $allPlugins_[i].name);
+                         isoscelesCon$ole.log(" invoking plugin....   " + $allPlugins_[i].name);
                         // dependency resolution start
                         var dep = $allPlugins_[i].dependency;
                         var depLength = dep.length;
 
 
-                         console.log("injecting dependencies....   ");
+                         isoscelesCon$ole.log("injecting dependencies....   ");
 
 
-                         console.log(($allPlugins_[i].dependency.toString() || " ***Oh! No available dependency"));
+                         isoscelesCon$ole.log(($allPlugins_[i].dependency.toString() || " ***Oh! No available dependency"));
                         //dependency resolution ends
-                         console.log("finally executing  " + $allPlugins_[i].name + " .....");
+                         isoscelesCon$ole.log("finally executing  " + $allPlugins_[i].name + " .....");
 
 
                         var coreDependencyMapping = coreDependencyFactory(startOptions, param);
@@ -365,7 +403,7 @@
 
                                     var depStrAr = eahcOther.module(moduleName).myDependencies();
                                     if (depStrAr && depStrAr.length==0) {
-                                      console.error("Dependency '" + stringSpecifiedModules + "'  has NOT been added to the namespace '" + namespaceReference + "' and cannot be injected into '" + moduleNameRef+"'");
+                                      isoscelesCon$ole.error("Dependency '" + stringSpecifiedModules + "'  has NOT been added to the namespace '" + namespaceReference + "' and cannot be injected into '" + moduleNameRef+"'");
                                     }
 
                                     return depStrAr;
@@ -401,7 +439,7 @@
                     plugin: function (name, f_or_dependency, fun, autoExecute, nature) {
                         var dnature = nature || "NONE provider";
 
-                         console.log("--->Registering a " + dnature + "  " + name + "  ....");
+                         isoscelesCon$ole.log("--->Registering a " + dnature + "  " + name + "  ....");
 
 
                         var f = typeof f_or_dependency === "function" ? f_or_dependency : (fun || function () { });
@@ -450,7 +488,7 @@
 
     };
    
-    
+    wind.isosceles.api = isoscelesCon$ole || function () { };
   
     var $n = isosceles("_$n_");
     wind.isosceles.module = $n.module;
