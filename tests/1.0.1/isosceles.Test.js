@@ -1,4 +1,4 @@
-﻿/* TESTS
+/* TESTS
 
 ! isosceles.js v1.0.0 | (c) 2013, Samuel Bamgboye*/
 /**
@@ -13,52 +13,7 @@ function createSomeUniqueString() {
     return "someId_" + createSomeUniqueString.counter;
 }
 
-test("API Avialability Test", function () {
-    ok(isosceles, "isosceles object is available in global space!");
-    ok(iso, "iso object is available in global space!");
-    ok(isosceles(function () { }).module, "isosceles.module object is available for creation of modules!");
-    ok(typeof isosceles(function () { }).module === "function", "isosceles.module object is available for creation of modules!");
-    ok(isosceles(function () { }).module(createSomeUniqueString()), "invoking isosceles.module object returns a truthy object");
-    ok(typeof isosceles(function () { }).module(createSomeUniqueString()).plugin === "function", "the plugin method exist off of module");
 
-    ok(isosceles.module, "isosceles.module object is available for creation of modules!");
-    ok(typeof isosceles.module === "function", "isosceles.module object is available for creation of modules!");
-    ok(typeof isosceles.plugin === "function", "isosceles.plugin object is available for creation of modules!");
-    ok(typeof isosceles.using === "function", "isosceles.using object is available for creation of modules!");
-
-
-    ok(typeof iso.module === "function", "iso.module object is available for creation of modules!");
-    ok(typeof iso.plugin === "function", "iso.plugin object is available for creation of modules!");
-    ok(typeof iso.using === "function", "iso.using object is available for creation of modules!");
-
-
-
-    ok(typeof iso.provider === "function", "iso.provider object is available for creation of modules!");
-    ok(typeof iso.myDependencies === "function", "iso.myDependencies object is available for creation of modules!");
-    ok(typeof iso.myDependency === "function", "iso.myDependency object is available for creation of modules!");
-    ok(typeof iso.getModuleDependencies === "function", "iso.getModuleDependencies object is available for creation of modules!");
-    ok(typeof iso.dependencyInjectorFactory === "function", "iso.dependencyInjectorFactory object is available for creation of modules!");
-    ok(typeof iso.dependencyFactoryInterceptor === "function", "iso.dependencyFactoryInterceptor object is available for creation of modules!");
-
-    ok(iso === isosceles, "iso and isosceles refer to the same object!");
-
-    for (var isoObjProp in iso) {
-        if (iso.hasOwnProperty(isoObjProp)) {
-            ok( isosceles.hasOwnProperty(isoObjProp), "iso." + isoObjProp + " and isosceles." + isoObjProp + " must be the same object!");
-        }
-    }
-   
-    ok(isosceles.module(createSomeUniqueString()), "invoking isosceles.module object returns a truthy object");
-    ok(typeof isosceles.module(createSomeUniqueString()).plugin === "function", "the plugin method exist off of module");
-
-    ok(typeof isosceles.module(createSomeUniqueString()).using === "function", "the using method exist off of module");
-
-    ok(! isosceles.module(createSomeUniqueString()).using(), "a plugin must be supplied");
-
-
-    ok(!isosceles.module(createSomeUniqueString()).using(createSomeUniqueString()), "a non existing plugin cannot be used");
-
-});
 
 test("isosceles Lib Example Usage Test", function () {
    
@@ -490,6 +445,7 @@ test("isosceles Lib - Testing Mocks", function () {
     var moduleName = createSomeUniqueString();
     var moduleName2 = createSomeUniqueString();
     var moduleName3 = createSomeUniqueString();
+    var moduleName4 = createSomeUniqueString();
     var anotherModuleName = createSomeUniqueString();
     var someOtherModuleName = createSomeUniqueString();
     var defaultDependencySetUp = { name: "ADependency", dependency: "A" };
@@ -561,14 +517,410 @@ test("isosceles Lib - Testing Mocks", function () {
     anotherTestModule.expect("D1", "0987654321","so wrong expectation");
 
     anotherTestModule.test("D1", function (testResult, note, actual, expected) {
-        ok(!testResult,"1");
-        ok(note === "so wrong expectation","2");
-        ok(expected === "0987654321","3");
-        ok(actual === expected1,"4");
+        ok(!testResult, "1. a failed test must be false");
+        ok(note === "so wrong expectation", "1. when 'note' is supplied in a test, it must be injected back into the test callback");
+        ok(expected === "0987654321", "1. when 'expectation' is supplied in a test, it must be injected back into the test callback");
+        ok(actual === expected1, "1. when a test is run , the expected must be correctly compared to the actual even when mock object is involved");
     });
 
 
    ok(result0 === expected1, "Mocks ");
-    ok(result10 === expected2, "Mocks ");
+   ok(result10 === expected2, "Mocks ");
+
+
+   var aNewTestModule = samTestLib.module(moduleName4, [moduleName]);
+
+   aNewTestModule.mock("D1","coffee");
+
+  
+   aNewTestModule.expect("D1", "milk", "D1 must be a milk");
+
+   aNewTestModule.test("D1", function (testResult, note, actual, expected) {
+
+      
+       ok(!testResult, "2. a failed test must be false");
+       ok(note === "D1 must be a milk", "2. when 'note' is supplied in a test, it must be injected back into the test callback");
+       ok(expected === "milk", "2. when 'expectation' is supplied in a test, it must be injected back into the test callback");
+       ok(actual === "coffee", "2. when a test is run , the expected must be correctly compared to the actual even when mock object is involved");
+    
+   });
+
+
+
  
+});
+
+
+test("isosceles Lib - Testing Specifications", function () {
+
+    var framework = iso("sam_framework");
+    var module = framework.module("sam_module");
+    var mockShifts={
+        shift1: "s1",
+        shift2: "s2"
+    };
+    module.mock("getAllShifts", mockShifts);
+
+
+
+
+    module.plugin("shiftViewer", ["getAllShifts"],function (Inject) {
+        return function () {
+            var shifts = Inject("getAllShifts")();
+          
+            var result = "";
+            for (var shift in shifts) {
+                if (shifts.hasOwnProperty(shift)) {
+                    result += shifts[shift];
+                }
+            }
+            return result;
+       };
+    });
+
+    //Not implemented dependency
+    //module.plugin("getAllShifts", function () {
+    //    return function () {
+
+    //    };
+    //});
+
+    var shiftViewer = module.using("shiftViewer");
+
+    var shiftView1 = shiftViewer();
+
+    ok(shiftView1 === "s1s2", " when mocking is enabled , the mock object must be used");
+
+    module.enableMocking = false;
+
+    var shiftView2 = shiftViewer();
+
+    ok(shiftView2 !== "s1s2", " when mocking is NOT enabled , the mock object must NOT be used");
+
+    module.enableMocking = true;
+
+    var shiftView3 = shiftViewer();
+
+    ok(shiftView3 === "s1s2", " when mocking is enabled AGAIN, the mock object must be used");
+
+
+    module.enableMocking = false;
+
+    var shiftView4 = shiftViewer();
+
+    ok(shiftView4 !== "s1s2", " when mocking is NOT enabled AGAIN , the mock object must NOT be used");
+
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    module2 = framework.module("moduleSecond", ["sam_module"]);
+
+    module2.mock("shiftViewer", "abcd");
+
+    module.enableMocking = true;//enable mocking for sam_framework module so that the modules depending on it will get some result
+
+    var shiftViewer2 = module2.using("shiftViewer");
+
+    var shiftView11 = shiftViewer2();
+
+    ok(shiftView11 === "abcd", " when mocking is enabled by default , the mock object must be used");
+
+    module2.enableMocking = false;
+
+    var shiftView12 = shiftViewer2();
+
+    ok(shiftView12 !== "abcd", " when mocking is NOT enabled , the mock object must NOT be used");
+
+    module2.enableMocking = true;
+
+    var shiftView13 = shiftViewer2();
+
+    ok(shiftView13 === "abcd", " when mocking is enabled AGAIN, the mock object must be used");
+
+
+    module2.enableMocking = false;
+
+    var shiftView14 = shiftViewer2();
+
+    ok(shiftView14 !== "abcd", " when mocking is NOT enabled AGAIN , the mock object must NOT be used");
+
+
+
+
+
+
+
+});
+
+test("isosceles Lib - Implementing interfaces", function () {
+
+    var framework = iso("sam_framework2");
+    var module = framework.module("sam_module");
+
+    module.plugin("bestManGetter", ["IQueryBestMan","IAddressCompleter"], function (Inject) {
+        return function () {
+            var bestMan = Inject.IQueryBestMan();
+            var address = bestMan.address;
+            var completeAddress = Inject.IAddressCompleter(address);
+            return completeAddress;
+        };
+    });
+    var address = "101 query street, USA";
+    var addressPrefix= ", On Earth";
+
+    module.plugin("ConcreteQueryBestMan", function () {
+        return function () {
+            return {
+                address: address
+            };
+        };
+    });
+
+    module.plugin("AddressCompleter", function () {
+        return function (arg) {
+            return arg + addressPrefix;
+        };
+    });
+
+    module.implement("IQueryBestMan", "ConcreteQueryBestMan");
+
+    module.implement("IAddressCompleter").withPlugin("AddressCompleter");
+
+    var handle = module.using("bestManGetter", ["ConcreteQueryBestMan", "AddressCompleter"]);
+
+  var result = handle();
+
+  ok(result == address + addressPrefix, " when a concrete implementation of an interface is specified, it must be used during execution");
+
+
+});
+
+
+
+test("isosceles Lib - Implementing strategy Pattern using interfaces", function () {
+
+    var framework = iso("strategyPattern");
+    var module = framework.module("module1");
+
+    var address1 = "111 query street 100, USA";
+    var address2 = "222 query street 200, CANADA";
+    var address3 = "333 query street 200, USA";
+
+
+
+    module.plugin("bestManGetter", ["IQueryBestMan"], function (Inject) {
+        return function () {
+            var bestMan = Inject.IQueryBestMan();
+            var address = bestMan.address;
+            return address;
+        };
+    });
+
+
+  
+  
+
+    module.plugin("firstConcreteBestMan", function () {
+        return function () {
+            return {
+                address: address1
+            };
+        };
+    });
+
+    module.plugin("secondConcreteBestMan", function () {
+        return function () {
+            return {
+                address: address2
+            };
+        };
+    });
+
+    module.plugin("thirdConcreteBestMan", function () {
+        return function () {
+            return {
+                address: address3
+            };
+        };
+    });
+
+    module.plugin("AddressCompleter", function () {
+        return function (arg) {
+            return arg + addressPrefix;
+        };
+    });
+
+    module.implement("IQueryBestMan").withPlugin("firstConcreteBestMan");
+    module.implement("IQueryBestMan").withPlugin("secondConcreteBestMan");
+    module.implement("IQueryBestMan").withPlugin("thirdConcreteBestMan");
+
+
+
+
+    var strategyModule = framework.module("strategyModule");
+
+    strategyModule.plugin("bestManStrategy", function (Inject) {
+        return function (arg) {
+            var handle = {};
+            if (arg === 1) {
+                handle = module.using("bestManGetter", ["firstConcreteBestMan"]);
+            }
+
+            if (arg === 2) {
+                handle = module.using("bestManGetter", ["secondConcreteBestMan"]);
+            }
+
+            if (arg === 3) {
+                handle = module.using("bestManGetter", ["thirdConcreteBestMan"]);
+            }
+
+
+            return handle;
+        };
+    });
+
+    var strategy = strategyModule.using("bestManStrategy");
+
+    var handle1 = strategy(1);
+    var result1 = handle1();
+
+    var handle2 = strategy(2);
+    var result2 = handle2();
+
+    var handle3 = strategy(3);
+    var result3 = handle3();
+
+    ok(result1 == address1, "1  strategy apttern is possible using interfaces");
+    ok(result2 == address2, "2  strategy apttern is possible using interfaces");
+    ok(result3 == address3, "3  strategy apttern is possible using interfaces");
+
+
+});
+
+test("isosceles Lib - Implementing strategy Pattern using alternative interface notation", function () {
+
+    var framework = iso("strategyPattern");
+    var module = framework.module("module1");
+
+    var address1 = "111 query street 100, USA";
+    var address2 = "222 query street 200, CANADA";
+    var address3 = "333 query street 200, USA";
+
+
+
+    module.plugin("bestManGetter", ["IQueryBestMan"], function (Inject) {
+        return function () {
+            var bestMan = Inject.IQueryBestMan();
+            var address = bestMan.address;
+            return address;
+        };
+    });
+
+
+
+
+
+    module.plugin("firstConcreteBestMan:IQueryBestMan", function () {
+        return function () {
+            return {
+                address: address1
+            };
+        };
+    });
+
+    module.plugin("secondConcreteBestMan:IQueryBestMan", function () {
+        return function () {
+            return {
+                address: address2
+            };
+        };
+    });
+
+    module.plugin("thirdConcreteBestMan:IQueryBestMan", function () {
+        return function () {
+            return {
+                address: address3
+            };
+        };
+    });
+
+   
+
+   
+    var strategyModule = framework.module("strategyModule");
+
+    strategyModule.plugin("bestManStrategy", function (Inject) {
+        return function (arg) {
+           
+           var  handle = module.using("bestManGetter", [arg]);
+           
+            return handle;
+        };
+    });
+
+    var strategy = strategyModule.using("bestManStrategy");
+
+    var handle1 = strategy("firstConcreteBestMan");
+    var result1 = handle1();
+
+    var handle2 = strategy("secondConcreteBestMan");
+    var result2 = handle2();
+
+    var handle3 = strategy("thirdConcreteBestMan");
+    var result3 = handle3();
+
+    ok(result1 == address1, "1  strategy apttern is possible using interfaces");
+    ok(result2 == address2, "2  strategy apttern is possible using interfaces");
+    ok(result3 == address3, "3  strategy apttern is possible using interfaces");
+
+
+});
+
+
+
+
+
+test("API Avialability Test", function () {
+    ok(isosceles, "isosceles object is available in global space!");
+    ok(iso, "iso object is available in global space!");
+    ok(isosceles(function () { }).module, "isosceles.module object is available for creation of modules!");
+    ok(typeof isosceles(function () { }).module === "function", "isosceles.module object is available for creation of modules!");
+    ok(isosceles(function () { }).module(createSomeUniqueString()), "invoking isosceles.module object returns a truthy object");
+    ok(typeof isosceles(function () { }).module(createSomeUniqueString()).plugin === "function", "the plugin method exist off of module");
+
+    ok(isosceles.module, "isosceles.module object is available for creation of modules!");
+    ok(typeof isosceles.module === "function", "isosceles.module object is available for creation of modules!");
+    ok(typeof isosceles.plugin === "function", "isosceles.plugin object is available for creation of modules!");
+    ok(typeof isosceles.using === "function", "isosceles.using object is available for creation of modules!");
+
+
+    ok(typeof iso.module === "function", "iso.module object is available for creation of modules!");
+    ok(typeof iso.plugin === "function", "iso.plugin object is available for creation of modules!");
+    ok(typeof iso.using === "function", "iso.using object is available for creation of modules!");
+
+
+
+    ok(typeof iso.provider === "function", "iso.provider object is available for creation of modules!");
+    ok(typeof iso.myDependencies === "function", "iso.myDependencies object is available for creation of modules!");
+    ok(typeof iso.myDependency === "function", "iso.myDependency object is available for creation of modules!");
+    ok(typeof iso.getModuleDependencies === "function", "iso.getModuleDependencies object is available for creation of modules!");
+    ok(typeof iso.dependencyInjectorFactory === "function", "iso.dependencyInjectorFactory object is available for creation of modules!");
+    ok(typeof iso.dependencyFactoryInterceptor === "function", "iso.dependencyFactoryInterceptor object is available for creation of modules!");
+
+    ok(iso === isosceles, "iso and isosceles refer to the same object!");
+
+    for (var isoObjProp in iso) {
+        if (iso.hasOwnProperty(isoObjProp)) {
+            ok(isosceles.hasOwnProperty(isoObjProp), "iso." + isoObjProp + " and isosceles." + isoObjProp + " must be the same object!");
+        }
+    }
+
+    ok(isosceles.module(createSomeUniqueString()), "invoking isosceles.module object returns a truthy object");
+    ok(typeof isosceles.module(createSomeUniqueString()).plugin === "function", "the plugin method exist off of module");
+
+    ok(typeof isosceles.module(createSomeUniqueString()).using === "function", "the using method exist off of module");
+
+    ok(!isosceles.module(createSomeUniqueString()).using(), "a plugin must be supplied");
+
+
+    ok(!isosceles.module(createSomeUniqueString()).using(createSomeUniqueString()), "a non existing plugin cannot be used");
+
 });
