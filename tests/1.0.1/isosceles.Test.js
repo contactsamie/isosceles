@@ -1,4 +1,4 @@
-﻿/* TESTS
+/* TESTS
 
 ! isosceles.js v1.0.0 | (c) 2013, Samuel Bamgboye*/
 /**
@@ -649,6 +649,234 @@ test("isosceles Lib - Testing Specifications", function () {
 
 
 });
+
+test("isosceles Lib - Implementing interfaces", function () {
+
+    var framework = iso("sam_framework2");
+    var module = framework.module("sam_module");
+
+    module.plugin("bestManGetter", ["IQueryBestMan","IAddressCompleter"], function (Inject) {
+        return function () {
+            var bestMan = Inject.IQueryBestMan();
+            var address = bestMan.address;
+            var completeAddress = Inject.IAddressCompleter(address);
+            return completeAddress;
+        };
+    });
+    var address = "101 query street, USA";
+    var addressPrefix= ", On Earth";
+
+    module.plugin("ConcreteQueryBestMan", function () {
+        return function () {
+            return {
+                address: address
+            };
+        };
+    });
+
+    module.plugin("AddressCompleter", function () {
+        return function (arg) {
+            return arg + addressPrefix;
+        };
+    });
+
+    module.implement("IQueryBestMan", "ConcreteQueryBestMan");
+
+    module.implement("IAddressCompleter").withPlugin("AddressCompleter");
+
+    var handle = module.using("bestManGetter", ["ConcreteQueryBestMan", "AddressCompleter"]);
+
+  var result = handle();
+
+  ok(result == address + addressPrefix, " when a concrete implementation of an interface is specified, it must be used during execution");
+
+
+});
+
+
+
+test("isosceles Lib - Implementing strategy Pattern using interfaces", function () {
+
+    var framework = iso("strategyPattern");
+    var module = framework.module("module1");
+
+    var address1 = "111 query street 100, USA";
+    var address2 = "222 query street 200, CANADA";
+    var address3 = "333 query street 200, USA";
+
+
+
+    module.plugin("bestManGetter", ["IQueryBestMan"], function (Inject) {
+        return function () {
+            var bestMan = Inject.IQueryBestMan();
+            var address = bestMan.address;
+            return address;
+        };
+    });
+
+
+  
+  
+
+    module.plugin("firstConcreteBestMan", function () {
+        return function () {
+            return {
+                address: address1
+            };
+        };
+    });
+
+    module.plugin("secondConcreteBestMan", function () {
+        return function () {
+            return {
+                address: address2
+            };
+        };
+    });
+
+    module.plugin("thirdConcreteBestMan", function () {
+        return function () {
+            return {
+                address: address3
+            };
+        };
+    });
+
+    module.plugin("AddressCompleter", function () {
+        return function (arg) {
+            return arg + addressPrefix;
+        };
+    });
+
+    module.implement("IQueryBestMan").withPlugin("firstConcreteBestMan");
+    module.implement("IQueryBestMan").withPlugin("secondConcreteBestMan");
+    module.implement("IQueryBestMan").withPlugin("thirdConcreteBestMan");
+
+
+
+
+    var strategyModule = framework.module("strategyModule");
+
+    strategyModule.plugin("bestManStrategy", function (Inject) {
+        return function (arg) {
+            var handle = {};
+            if (arg === 1) {
+                handle = module.using("bestManGetter", ["firstConcreteBestMan"]);
+            }
+
+            if (arg === 2) {
+                handle = module.using("bestManGetter", ["secondConcreteBestMan"]);
+            }
+
+            if (arg === 3) {
+                handle = module.using("bestManGetter", ["thirdConcreteBestMan"]);
+            }
+
+
+            return handle;
+        };
+    });
+
+    var strategy = strategyModule.using("bestManStrategy");
+
+    var handle1 = strategy(1);
+    var result1 = handle1();
+
+    var handle2 = strategy(2);
+    var result2 = handle2();
+
+    var handle3 = strategy(3);
+    var result3 = handle3();
+
+    ok(result1 == address1, "1  strategy apttern is possible using interfaces");
+    ok(result2 == address2, "2  strategy apttern is possible using interfaces");
+    ok(result3 == address3, "3  strategy apttern is possible using interfaces");
+
+
+});
+
+test("isosceles Lib - Implementing strategy Pattern using alternative interface notation", function () {
+
+    var framework = iso("strategyPattern");
+    var module = framework.module("module1");
+
+    var address1 = "111 query street 100, USA";
+    var address2 = "222 query street 200, CANADA";
+    var address3 = "333 query street 200, USA";
+
+
+
+    module.plugin("bestManGetter", ["IQueryBestMan"], function (Inject) {
+        return function () {
+            var bestMan = Inject.IQueryBestMan();
+            var address = bestMan.address;
+            return address;
+        };
+    });
+
+
+
+
+
+    module.plugin("firstConcreteBestMan:IQueryBestMan", function () {
+        return function () {
+            return {
+                address: address1
+            };
+        };
+    });
+
+    module.plugin("secondConcreteBestMan:IQueryBestMan", function () {
+        return function () {
+            return {
+                address: address2
+            };
+        };
+    });
+
+    module.plugin("thirdConcreteBestMan:IQueryBestMan", function () {
+        return function () {
+            return {
+                address: address3
+            };
+        };
+    });
+
+   
+
+   
+    var strategyModule = framework.module("strategyModule");
+
+    strategyModule.plugin("bestManStrategy", function (Inject) {
+        return function (arg) {
+           
+           var  handle = module.using("bestManGetter", [arg]);
+           
+            return handle;
+        };
+    });
+
+    var strategy = strategyModule.using("bestManStrategy");
+
+    var handle1 = strategy("firstConcreteBestMan");
+    var result1 = handle1();
+
+    var handle2 = strategy("secondConcreteBestMan");
+    var result2 = handle2();
+
+    var handle3 = strategy("thirdConcreteBestMan");
+    var result3 = handle3();
+
+    ok(result1 == address1, "1  strategy apttern is possible using interfaces");
+    ok(result2 == address2, "2  strategy apttern is possible using interfaces");
+    ok(result3 == address3, "3  strategy apttern is possible using interfaces");
+
+
+});
+
+
+
+
 
 test("API Avialability Test", function () {
     ok(isosceles, "isosceles object is available in global space!");
